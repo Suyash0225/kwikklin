@@ -251,82 +251,177 @@ img {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* --- Services Grid --- */
+/* --- Premium Services Scroll Layout --- */
+.services-container-wrapper {
+    position: relative;
+    padding: 1rem 0;
+}
+
+.services-scroller {
+    display: flex;
+    overflow-x: auto;
+    gap: 2rem;
+    padding: 1rem 0.5rem 3rem 0.5rem;
+    /* Bottom padding for hover ease */
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* Hide scrollbar Firefox */
+    -webkit-overflow-scrolling: touch;
+}
+
+.services-scroller::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar Chrome/Safari */
+}
+
+
+/* --- Services Grid (Page Layout) --- */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
+    padding-bottom: 4rem;
 }
 
+/* --- Service Card Base --- */
 .service-card {
     background: white;
-    border-radius: var(--radius);
+    border-radius: 1.5rem;
     overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-    border: 1px solid transparent;
+    position: relative;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Specific for Home Scroller */
+.services-scroller .service-card {
+    flex: 0 0 300px;
+    /* Fixed width only for carousel */
+    scroll-snap-align: center;
 }
 
 .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--primary);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(14, 165, 233, 0.15), 0 10px 10px -5px rgba(14, 165, 233, 0.1);
+    border-color: rgba(14, 165, 233, 0.3);
+}
+
+.service-img-wrapper {
+    height: 220px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.services-grid .service-img-wrapper {
+    height: 200px;
+    /* Slightly smaller for grid */
 }
 
 .service-img {
-    height: 200px;
+    height: 100%;
     width: 100%;
     object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.service-card:hover .service-img {
+    transform: scale(1.1);
+}
+
+.service-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
 
 .service-info {
     padding: 1.5rem;
+    background: white;
+    position: relative;
+    z-index: 5;
 }
 
-.service-cat {
+.service-cat-tag {
+    display: inline-block;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    color: var(--primary);
-    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--gray);
     margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
 .service-title {
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--secondary);
     margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.service-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
 }
 
 .service-price {
-    font-size: 1.25rem;
-    color: var(--secondary);
-    font-weight: 600;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
 }
 
 .add-btn {
     width: 100%;
-    padding: 0.75rem;
-    background: white;
-    border: 1px solid #e2e8f0;
+    padding: 0.75rem 1rem;
     border-radius: 0.75rem;
+    background: var(--secondary);
+    color: white;
+    border: none;
     cursor: pointer;
-    font-weight: 600;
-    color: var(--secondary);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .add-btn:hover {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+    background: var(--primary);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+/* Home Page Carousel Button Override */
+.services-scroller .add-btn {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.25rem;
+}
+
+.services-scroller .add-btn:hover {
+    transform: rotate(90deg) scale(1.1);
 }
 
 /* Quantity Controls */
@@ -586,4 +681,186 @@ img {
     margin-top: 1rem;
     font-size: 0.8rem;
     color: #9ca3af;
+}
+
+/* =========================================
+   Price Estimator UI (New Services Design)
+   ========================================= */
+
+/* --- Category Slider --- */
+.category-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Center them if few, or flex-start if scrolling */
+    gap: 1.5rem;
+    /* Space between icons */
+    overflow-x: auto;
+    padding: 1rem 0 0.5rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    flex-wrap: wrap;
+    /* Default desktop */
+}
+
+@media (max-width: 768px) {
+    .category-slider {
+        flex-wrap: nowrap;
+        /* Force scroll on mobile */
+        justify-content: flex-start;
+        padding-left: 1rem;
+        /* Start padding */
+        padding-right: 1rem;
+    }
+}
+
+/* Hide scrollbar */
+.category-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    gap: 0.5rem;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    min-width: 80px;
+    /* Touch target */
+}
+
+.cat-item:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+.cat-item.active {
+    opacity: 1;
+}
+
+.cat-icon {
+    font-size: 1.8rem;
+    /* Icon size */
+    color: var(--secondary);
+    /* Default Gray/Dark */
+    transition: color 0.3s;
+}
+
+.cat-item.active .cat-icon {
+    color: #F97316;
+    /* Orange Active Color */
+}
+
+.cat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cat-item.active .cat-label {
+    color: #F97316;
+    /* Orange Text */
+}
+
+
+/* --- Service List Layout (Horizontal Cards) --- */
+.service-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    /* 2 columns on wide screens */
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+}
+
+@media (max-width: 768px) {
+    .service-list-container {
+        grid-template-columns: 1fr;
+        /* 1 column on mobile */
+    }
+}
+
+.service-list-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    /* Rounded corners */
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+}
+
+.service-list-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-color: #cbd5e1;
+}
+
+/* Left: Image Circle */
+.list-card-img-wrapper {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    /* Circle */
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.list-card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Middle: Info */
+.list-card-info {
+    flex-grow: 1;
+}
+
+.list-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 0.25rem;
+}
+
+.list-card-price {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #F97316;
+    /* Orange Price */
+}
+
+/* Right: Add Button */
+.list-card-action {
+    flex-shrink: 0;
+}
+
+.add-btn-orange {
+    background: #F97316;
+    /* Orange */
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.add-btn-orange:hover {
+    background: #ea580c;
+    /* Darker Orange */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
 }

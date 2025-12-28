@@ -72,16 +72,18 @@
     <section class="section">
         <div class="container">
             <div class="section-title">
-                <h2>Our Premium Services</h2>
+                <h2>Our Services</h2>
                 <p>Choose from our specialized cleaning options designed for every fabric type.</p>
             </div>
 
-            <!-- Dynamic Service Grid (Preview Limit 4) -->
-            <div id="services-container" class="services-grid">
-                <!-- Javascript will load services here -->
+            <!-- Dynamic Service Grid (Premium Scroller) -->
+            <div class="services-container-wrapper">
+                <div id="services-container" class="services-scroller">
+                    <!-- Javascript will load categories here -->
+                </div>
             </div>
 
-            <div style="margin-top: 3rem; text-align: center;">
+            <div style="margin-top: 1rem; text-align: center;">
                 <a href="services.html" class="btn btn-secondary">View All Services</a>
             </div>
         </div>
@@ -283,8 +285,8 @@
             DataManager.trackVisit();
         }
 
-        // 1. Load Services based on Category
-        function renderServices() {
+        // --- Mobile Menu Toggle ---
+        function toggleMenu() {
             document.getElementById('nav-links').classList.toggle('active');
         }
 
@@ -302,31 +304,56 @@
             setInterval(nextSlide, 5000); // Change slide every 5 seconds
         }
 
-        // Load Preview Services
+        // Load Categories
         document.addEventListener('DOMContentLoaded', () => {
             DataManager.updateCartCount(); // Setup badge
 
             const container = document.getElementById('services-container');
-            const services = DataManager.getServices().slice(0, 4); // Show only top 4
+            const services = DataManager.getServices();
 
+            // Extract Unique Categories
+            const categories = {};
             services.forEach(service => {
+                if (!categories[service.category]) {
+                    categories[service.category] = {
+                        name: service.category,
+                        image: service.image, // Use the image of the first item in this category
+                        count: 1
+                    };
+                } else {
+                    categories[service.category].count++;
+                }
+            });
+
+            const categoryList = Object.values(categories);
+
+            // Fallback
+            if (categoryList.length === 0) {
+                container.innerHTML = '<div style="text-align:center; width:100%; color:var(--gray);">No services available at the moment.</div>';
+                return;
+            }
+
+            categoryList.forEach(cat => {
                 const card = document.createElement('div');
                 card.className = 'service-card';
+                // Link to filter
+                card.style.cursor = 'pointer';
+                card.onclick = () => window.location.href = 'services.html';
+
                 card.innerHTML = `
-                    <div style="position:relative;">
-                        <img src="${service.image}" alt="${service.name}" class="service-img">
-                         <div style="position:absolute; top:10px; right:10px; display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
-                            <span style="background:white; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:700;">${service.category}</span>
-                            ${service.subCategory ? `<span style="background:rgba(255,255,255,0.9); padding:2px 6px; border-radius:4px; font-size:0.65rem; font-weight:600; color:#64748b;">${service.subCategory}</span>` : ''}
-                        </div>
+                    <div class="service-img-wrapper">
+                        <img src="${cat.image}" alt="${cat.name}" class="service-img">
                     </div>
                     <div class="service-info">
-                        <div class="service-cat">${service.category}</div>
-                        <h3 class="service-title">${service.name}</h3>
-                        <div class="service-price">₹${service.price}</div>
-                        <button class="add-btn" onclick="addToCart('${service.id}')">
-                            <i class="bi bi-cart-plus"></i> Add to Cart
-                        </button>
+                        <div style="font-size:0.8rem; color:var(--gray); margin-bottom:0.25rem;">${cat.count} Items</div>
+                        <h3 class="service-title" style="margin-bottom:1rem;">${cat.name}</h3>
+                        
+                        <div style="border-top:1px solid #f1f5f9; padding-top:1rem; display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-weight:600; color:var(--primary);">View Options</span>
+                            <div class="add-btn" style="width:36px; height:36px; transform:rotate(-45deg);">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
                     </div>
                 `;
                 container.appendChild(card);

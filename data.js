@@ -165,6 +165,14 @@ const DataManager = {
         if (!localStorage.getItem(STORAGE_KEYS.BLOGS)) {
             localStorage.setItem(STORAGE_KEYS.BLOGS, JSON.stringify(DEFAULT_BLOGS));
         }
+
+        // Analytics Migration
+        if (localStorage.getItem('kwikklin_visits') && !localStorage.getItem('kwikklin_visits_legacy')) {
+            const oldVisits = localStorage.getItem('kwikklin_visits');
+            localStorage.setItem('kwikklin_visits_legacy', oldVisits);
+            localStorage.removeItem('kwikklin_visits'); // Cleanup
+            console.log("Analytics Migrated: " + oldVisits);
+        }
     },
 
     // --- Admin Profile & Settings ---
@@ -176,14 +184,30 @@ const DataManager = {
         localStorage.setItem(STORAGE_KEYS.ADMIN_PROFILE, JSON.stringify(data));
     },
 
+    // --- Secure PIN Helper ---
+    _hash(str) {
+        // Simple hash for client-side obfuscation (Not crypto-grade but better than plain text)
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash.toString();
+    },
+
     checkAdmin(pin) {
         const data = this.getAdminData();
-        return data.pin === pin;
+        // Check if stored pin is already hashed (simple length check or numeric)
+        // If stored pin is '1234' (legacy), check plain then hash it.
+        if (data.pin === pin) return true; // Legacy plain match
+        if (data.pin === this._hash(pin)) return true; // Hashed match
+        return false;
     },
 
     updateAdminPin(newPin) {
         const data = this.getAdminData();
-        data.pin = newPin;
+        data.pin = this._hash(newPin); // Save Hashed
         this.saveAdminData(data);
     },
 
@@ -210,18 +234,54 @@ const DataManager = {
     },
 
     // --- Analytics ---
+    // --- Analytics ---
     getVisits() {
-        return parseInt(localStorage.getItem('kwikklin_visits') || '0');
+        // Return total count (Legacy + New Logs)
+        const legacy = parseInt(localStorage.getItem('kwikklin_visits_legacy') || '0');
+        const logs = JSON.parse(localStorage.getItem('kwikklin_visit_log') || '[]');
+        return legacy + logs.length;
     },
 
     trackVisit() {
-        // Simple session check to avoid counting refresh as new visit?
         if (!sessionStorage.getItem('visit_tracked')) {
-            let visits = this.getVisits();
-            visits++;
-            localStorage.setItem('kwikklin_visits', visits.toString());
+            // Log Timestamp
+            const logs = JSON.parse(localStorage.getItem('kwikklin_visit_log') || '[]');
+            logs.push(new Date().toISOString());
+            localStorage.setItem('kwikklin_visit_log', JSON.stringify(logs));
+
+            // Mark session
             sessionStorage.setItem('visit_tracked', 'true');
         }
+    },
+
+    getAnalytics(days) {
+        const logs = JSON.parse(localStorage.getItem('kwikklin_visit_log') || '[]');
+        const now = new Date();
+        const cutoff = new Date();
+        cutoff.setDate(now.getDate() - days);
+
+        // Filter logs
+        const recentLogs = logs.filter(timestamp => new Date(timestamp) >= cutoff);
+
+        // Group by Date (YYYY-MM-DD)
+        const dailyCounts = {};
+        recentLogs.forEach(ts => {
+            const dateStr = new Date(ts).toISOString().split('T')[0];
+            dailyCounts[dateStr] = (dailyCounts[dateStr] || 0) + 1;
+        });
+
+        // Fill in missing dates for the chart
+        const result = [];
+        for (let i = 0; i < days; i++) {
+            const d = new Date();
+            d.setDate(now.getDate() - i);
+            const dateStr = d.toISOString().split('T')[0];
+            result.push({
+                date: dateStr,
+                count: dailyCounts[dateStr] || 0
+            });
+        }
+        return result.reverse(); // Oldest first
     },
 
     // --- Services ---
@@ -395,6 +455,12 @@ const DataManager = {
 
         window.open(whatsappUrl, '_blank');
     }
+};
+
+// Global UI Helper
+window.toggleMenu = function () {
+    const nav = document.getElementById('nav-links');
+    if (nav) nav.classList.toggle('active');
 };
 
 // Initialize on load

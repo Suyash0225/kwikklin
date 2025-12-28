@@ -108,12 +108,17 @@
             gap: 1.5rem;
         }
 
-        .cart-thumb {
-            height: 80px;
-            width: 80px;
+        .cart-icon-wrapper {
+            height: 50px;
+            width: 50px;
             border-radius: 12px;
-            object-fit: cover;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #e0f2fe;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .quantity-controls {
@@ -423,11 +428,13 @@
                 el.className = 'cart-item';
                 el.innerHTML = `
                     <div class="cart-item-info">
-                        <img src="${item.image}" class="cart-thumb">
+                        <div class="cart-icon-wrapper">
+                            <i class="bi bi-basket2-fill"></i>
+                        </div>
                         <div>
                             <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.25rem;">${item.name}</div>
                             <div style="color: var(--gray); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="bi bi-tag"></i> ₹${item.price} / item
+                                <i class="bi bi-tag"></i> ₹${item.price}
                             </div>
                         </div>
                     </div>
@@ -459,17 +466,17 @@
                 deliveryEl.style.color = 'var(--secondary)';
                 freeMsg.style.display = 'none';
             }
-        }
 
-        if (allowOrders) {
-            // Show Checkout Form
-            document.querySelector('.checkout-form').style.display = 'block';
-        } else {
-            // Hide Form & Show Message
-            document.querySelector('.checkout-form').style.display = 'none';
 
-            const msg = document.createElement('div');
-            msg.innerHTML = `
+            if (allowOrders) {
+                // Show Checkout Form
+                document.querySelector('.checkout-form').style.display = 'block';
+            } else {
+                // Hide Form & Show Message
+                document.querySelector('.checkout-form').style.display = 'none';
+
+                const msg = document.createElement('div');
+                msg.innerHTML = `
                     <div style="background:#fff1f2; color:#be123c; padding:1.5rem; border-radius:1rem; text-align:center; margin-top:2rem; border:1px solid #fecaca;">
                         <i class="bi bi-bag-x-fill" style="font-size:1.5rem; margin-bottom:0.5rem; display:block;"></i>
                         <strong>Ordering is currently paused.</strong>
@@ -479,8 +486,8 @@
                         </a>
                     </div>
                 `;
-            document.getElementById('cart-summary').appendChild(msg);
-        }
+                document.getElementById('cart-summary').appendChild(msg);
+            }
         }
 
         function updateQty(id, change) {
