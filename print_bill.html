@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kwik Klin Receipt</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            width: 300px;
+            /* Approx 80mm thermal paper width */
+            margin: 0 auto;
+            background: white;
+            color: black;
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px dashed black;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .meta {
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .item-name {
+            flex-grow: 1;
+        }
+
+        .divider {
+            border-top: 1px dashed black;
+            margin: 10px 0;
+        }
+
+        .total-section {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.75rem;
+            margin-top: 20px;
+            border-top: 1px dashed black;
+            padding-top: 10px;
+        }
+
+        .print-btn {
+            display: block;
+            width: 100%;
+            background: black;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+
+            body {
+                width: auto;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="logo">Kwik Klin</div>
+        <div>Online Smart Laundry</div>
+        <div style="font-size: 0.8rem; margin-top: 5px;">9696856069</div>
+    </div>
+
+    <div class="meta">
+        Date: <span id="date"></span><br>
+        Order ID: #<span id="order-id"></span>
+    </div>
+
+    <div style="border: 1px solid black; padding: 5px; margin-bottom: 10px; font-size: 0.85rem;">
+        <strong>Customer:</strong> <span id="cust-name"></span><br>
+        <strong>Addr:</strong> <span id="cust-addr"></span>
+    </div>
+
+    <div id="items">
+        <!-- JS Item List -->
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="item">
+        <span>Subtotal</span>
+        <span id="subtotal">0</span>
+    </div>
+    <div class="item">
+        <span>Delivery</span>
+        <span id="delivery">0</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="total-section">
+        <span>TOTAL</span>
+        <span id="total">0</span>
+    </div>
+
+    <div class="footer">
+        Thank you for choosing Kwik Klin!<br>
+        Visit: kwikklin.com
+    </div>
+
+    <button class="print-btn" onclick="window.print()">PRINT BILL</button>
+
+    <script src="data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cart = DataManager.getCart();
+            const container = document.getElementById('items');
+
+            if (cart.length === 0) {
+                container.innerHTML = "<div>No items in cart</div>";
+                return;
+            }
+
+            // Generate a random Order ID just for display or use timestamp
+            document.getElementById('order-id').innerText = Date.now().toString().slice(-6);
+            document.getElementById('date').innerText = new Date().toLocaleString();
+
+            // Customer Details
+            const customer = JSON.parse(localStorage.getItem('kwikklin_customer_temp') || '{}');
+            document.getElementById('cust-name').innerText = customer.name || 'Walk-in';
+            document.getElementById('cust-addr').innerText = customer.address || 'N/A';
+
+            cart.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'item';
+                el.innerHTML = `
+                    <span class="item-name">${item.name} x${item.quantity}</span>
+                    <span>${item.price * item.quantity}</span>
+                `;
+                container.appendChild(el);
+            });
+
+            const summary = DataManager.getOrderSummary();
+            document.getElementById('subtotal').innerText = summary.subtotal;
+            document.getElementById('delivery').innerText = summary.delivery;
+            document.getElementById('total').innerText = summary.total;
+
+            // Auto print on load (optional, but good for thermal flow)
+            // setTimeout(() => window.print(), 500);
+        });
+    </script>
+</body>
+
+</html>

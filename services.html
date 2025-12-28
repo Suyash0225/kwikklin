@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Kwik Klin Smart Services</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="logo"><i class="bi bi-water"></i> Kwik Klin</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="bi bi-list"></i></div>
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="services.html" class="nav-link active">Services</a>
+                <a href="story.html" class="nav-link">Our Story</a>
+                <a href="blogs.html" class="nav-link">Blogs</a>
+                <a href="cart.html" class="nav-link cart-icon">
+                    <i class="bi bi-cart3"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="https://wa.me/9696856069" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-whatsapp"></i> 9696856069
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <section class="section" style="background: var(--light); padding: 3rem 0;">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; text-align: center;">Our Services</h1>
+            <p style="text-align: center; color: var(--gray);">Detailed care for every fabric type.</p>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="section"
+        style="padding: 1.5rem 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #f1f5f9; position: sticky; top: 70px; z-index: 10; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);">
+        <div class="container">
+            <div style="display: grid; gap: 1.5rem;">
+
+                <!-- Top Row: Search and Primary Category -->
+                <div
+                    style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+
+                    <!-- Search -->
+                    <div style="position: relative; width: 100%; max-width: 350px; flex-grow: 1;">
+                        <i class="bi bi-search"
+                            style="position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                        <input type="text" id="search-input" onkeyup="searchServices()"
+                            placeholder="Find a service (e.g., Saree, Curtain)..."
+                            style="width: 100%; padding: 0.875rem 1rem 0.875rem 3rem; border: 1px solid #e2e8f0; border-radius: 1rem; outline: none; transition: all 0.2s; background: #f8fafc; font-size: 0.95rem;">
+                    </div>
+
+                    <!-- Category Filters (Desktop Layout) -->
+                    <div class="filter-group" id="category-filters">
+                        <button class="filter-pill active" onclick="filterServices('All')">All Categories</button>
+                        <!-- Dynamic categories -->
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Sub-Category (More subtle) -->
+                <div style="display: flex; align-items: center; gap: 1rem; overflow-x: auto; padding-bottom: 5px;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: #64748b; white-space: nowrap;">Filter
+                        by:</span>
+                    <div class="filter-group" id="subcategory-filters" style="flex-wrap: nowrap;">
+                        <button class="filter-chip active" onclick="filterSubServices('All')">All</button>
+                        <!-- Dynamic sub-categories -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <style>
+            /* Modern Scrollbar for filters */
+            .filter-group::-webkit-scrollbar {
+                height: 0;
+                width: 0;
+            }
+
+            .filter-group {
+                display: flex;
+                gap: 0.75rem;
+                overflow-x: auto;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+                align-items: center;
+            }
+
+            /* Primary Category Pills */
+            .filter-pill {
+                padding: 0.6rem 1.5rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 50px;
+                background: white;
+                color: #64748b;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                white-space: nowrap;
+                font-weight: 500;
+                font-size: 0.95rem;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            }
+
+            .filter-pill:hover {
+                background: #f8fafc;
+                color: #0ea5e9;
+                border-color: #0ea5e9;
+                transform: translateY(-1px);
+            }
+
+            .filter-pill.active {
+                background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+                color: white;
+                border-color: transparent;
+                box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+                transform: translateY(-1px);
+            }
+
+            /* Secondary Filter Chips */
+            .filter-chip {
+                padding: 0.5rem 1.25rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                background: #f8fafc;
+                color: #64748b;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+                font-size: 0.85rem;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+            }
+
+            .filter-chip:hover {
+                background: white;
+                border-color: #cbd5e1;
+                color: #334155;
+            }
+
+            .filter-chip.active {
+                background: #e0f2fe;
+                color: #0284c7;
+                border-color: #bae6fd;
+                box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1);
+            }
+
+            /* Input Focus */
+            #search-input:focus {
+                background: white;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+            }
+        </style>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="section">
+        <div class="container">
+            <div id="services-container" class="services-grid">
+                <!-- Javascript will load services here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Same Footer Include -->
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Kwik Klin</h3>
+                    <p>Smart Laundry Services in Varanasi.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">&copy; 2025 Kwik Klin.</div>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        function toggleMenu() { document.getElementById('nav-links').classList.toggle('active'); }
+
+        let allServices = [];
+        let currentCategory = 'All';
+        let currentSubCategory = 'All';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            DataManager.updateCartCount();
+
+            // Load and render
+            allServices = DataManager.getServices();
+            setupFilters();
+            renderServices(allServices);
+        });
+
+        function setupFilters() {
+            // 1. Main Categories
+            const categories = ['All', ...new Set(allServices.map(s => s.category))];
+            const catContainer = document.getElementById('category-filters');
+
+            catContainer.innerHTML = '';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `filter-pill ${cat === 'All' ? 'active' : ''}`;
+                btn.innerText = cat;
+                btn.onclick = () => filterServices(cat);
+                catContainer.appendChild(btn);
+            });
+
+            // 2. Sub Categories (Dynamic based on data)
+            const subCategories = ['All', ...new Set(allServices.map(s => s.subCategory || 'Other'))];
+            const subContainer = document.getElementById('subcategory-filters');
+
+            subContainer.innerHTML = '';
+            subCategories.forEach(sub => {
+                if (!sub) return;
+                const btn = document.createElement('button');
+                btn.className = `filter-chip ${sub === 'All' ? 'active' : ''}`;
+                btn.innerText = sub;
+                btn.onclick = () => filterSubServices(sub);
+                subContainer.appendChild(btn);
+            });
+        }
+
+        function filterServices(category) {
+            currentCategory = category;
+
+            // Update Category UI
+            document.querySelectorAll('#category-filters .filter-pill').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === category);
+            });
+
+            applyFilters();
+        }
+
+        function filterSubServices(subCategory) {
+            currentSubCategory = subCategory;
+
+            // Update Sub-Category UI
+            document.querySelectorAll('#subcategory-filters .filter-chip').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === subCategory);
+            });
+
+            applyFilters();
+        }
+
+        function searchServices() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+
+            const filtered = allServices.filter(s => {
+                // 1. Matches Main Category
+                const matchesCat = currentCategory === 'All' || s.category === currentCategory;
+
+                // 2. Matches Sub Category
+                // If subCategory missing in data, treat as 'Other'
+                const sSub = s.subCategory || 'Other';
+                const matchesSub = currentSubCategory === 'All' || sSub === currentSubCategory;
+
+                // 3. Matches Search
+                const matchesSearch = s.name.toLowerCase().includes(query) ||
+                    s.category.toLowerCase().includes(query) ||
+                    (s.subCategory && s.subCategory.toLowerCase().includes(query));
+
+                return matchesCat && matchesSub && matchesSearch;
+            });
+
+            renderServices(filtered);
+        }
+
+        function renderServices(services) {
+            const container = document.getElementById('services-container');
+            container.innerHTML = '';
+
+            if (services.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #64748b;">No services found matching your criteria.</div>';
+                return;
+            }
+
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                // Add fade-in animation
+                card.style.animation = 'fadeIn 0.3s ease-out';
+
+                card.innerHTML = `
+                    <div style="position:relative;">
+                        <img src="${service.image}" alt="${service.name}" class="service-img">
+                        <div style="position:absolute; top:10px; right:10px; display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
+                            <span style="background:white; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:700;">${service.category}</span>
+                            ${service.subCategory ? `<span style="background:rgba(255,255,255,0.9); padding:2px 6px; border-radius:4px; font-size:0.65rem; font-weight:600; color:#64748b;">${service.subCategory}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <h3 class="service-title">${service.name}</h3>
+                        <div class="service-price">₹${service.price}</div>
+                        
+                        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+                            <button class="qty-btn" onclick="adjustCardQty(this, -1)">-</button>
+                            <input type="number" value="1" min="1" max="50" class="qty-input" readonly>
+                            <button class="qty-btn" onclick="adjustCardQty(this, 1)">+</button>
+                        </div>
+
+                        <button class="add-btn" onclick="addToCart(this, '${service.id}')">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function adjustCardQty(btn, change) {
+            const input = btn.parentNode.querySelector('.qty-input');
+            let val = parseInt(input.value) + change;
+            if (val < 1) val = 1;
+            if (val > 50) val = 50;
+            input.value = val;
+        }
+
+        function addToCart(btn, id) {
+            // Find the qty input in the same card
+            const cardBody = btn.closest('.service-info');
+            const qtyInput = cardBody.querySelector('.qty-input');
+            const qty = parseInt(qtyInput.value);
+
+            DataManager.addToCart(id, qty);
+
+            // Show toast or alert
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="bi bi-check"></i> Added ${qty}`;
+            btn.style.background = '#22c55e';
+            btn.style.color = 'white';
+
+            // Reset after delay
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+                btn.style.color = '';
+                qtyInput.value = 1; // Reset quantity back to 1
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>

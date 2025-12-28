@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kwik Klin - Best Laundry Service in Varanasi | Dry Cleaning & Household</title>
+    <meta name="description"
+        content="Best Online Laundry Service in Varanasi. Kwik Klin offers premium Dry Cleaning, Shoe Cleaning, and Household laundry (Curtains, Sheets). Free Pickup & Delivery. Call 9696856069.">
+    <meta name="keywords"
+        content="Laundry in Varanasi, Dry Cleaning, Premium Wash, Shoe Cleaning, Household Laundry in Varanasi, Online Laundry Service, Kwik Klin, Best Laundry Varanasi">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="logo">
+                <i class="bi bi-water"></i> Kwik Klin
+            </a>
+
+            <div class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="bi bi-list"></i>
+            </div>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="story.html" class="nav-link">Our Story</a>
+                <a href="blogs.html" class="nav-link">Blogs</a>
+                <a href="cart.html" class="nav-link cart-icon">
+                    <i class="bi bi-cart3"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="https://wa.me/9696856069" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-whatsapp"></i> 9696856069
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section (Auto Slider) -->
+    <section class="hero">
+        <!-- Slide 1 -->
+        <div class="slide active"
+            style="background-image: url('https://images.unsplash.com/photo-1545173168-9f3d7d451fce?q=80&w=2073&auto=format&fit=crop');">
+        </div>
+        <!-- Slide 2 -->
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1517677280437-a8dabc8f403e?q=80&w=2069&auto=format&fit=crop');">
+        </div>
+
+        <div class="container hero-content">
+            <h1>Expert Care for <br> Your Fabrics</h1>
+            <p>Premium online laundry service in Varanasi. We pick up, clean, and deliver with 0% effort from you.</p>
+            <div style="display: flex; gap: 1rem;">
+                <a href="services.html" class="btn btn-primary">Order Now</a>
+                <a href="https://wa.me/9696856069" class="btn btn-secondary" target="_blank"><i
+                        class="bi bi-whatsapp"></i> WhatsApp Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Premium Services</h2>
+                <p>Choose from our specialized cleaning options designed for every fabric type.</p>
+            </div>
+
+            <!-- Dynamic Service Grid (Preview Limit 4) -->
+            <div id="services-container" class="services-grid">
+                <!-- Javascript will load services here -->
+            </div>
+
+            <div style="margin-top: 3rem; text-align: center;">
+                <a href="services.html" class="btn btn-secondary">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section" style="background: var(--light);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Kwik Klin?</h2>
+                <p>We combine technology with expert care to give you the best laundry experience.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-truck"></i></div>
+                    <h3>Free Pickup & Delivery</h3>
+                    <p>We come to your doorstep at your convenient time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-stars"></i></div>
+                    <h3>Premium Quality</h3>
+                    <p>Top-tier detergents and machinery for the best clean.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-cash-coin"></i></div>
+                    <h3>Affordable Pricing</h3>
+                    <p>Transparent pricing with no hidden charges.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-stopwatch"></i></div>
+                    <h3>Fast Turnaround</h3>
+                    <p>Get your clothes back fresh within 24-48 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-title">
+                <div class="google-rating-badge">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google"
+                        class="google-logo">
+                    <span>4.1</span>
+                    <div class="stars">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <span style="color: #6b7280; font-weight: 400;">(29 Reviews)</span>
+                </div>
+                <h2>Loved by Varanasi</h2>
+                <p>See what our happy customers are saying about Kwik Klin.</p>
+            </div>
+
+            <div class="reviews-slider">
+                <!-- Review 1 -->
+                <div class="review-card">
+                    <div class="reviewer-header">
+                        <div class="reviewer-initial">D</div>
+                        <div class="reviewer-info">
+                            <h4>Dhanshree Jwellers</h4>
+                            <div class="verified-badge"><i class="bi bi-check-circle-fill"></i> Verified Customer</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"Best Laundry Service in Varanasi – Highly Recommend Kwik Klin Smart Laundry!
+                        Kwik Klin Smart Laundry Services truly provides the best laundry service in Varanasi. Their
+                        quick turnaround time and professional care... exceptional!"</p>
+                    <div class="review-date">2 weeks ago</div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="review-card">
+                    <div class="reviewer-header">
+                        <div class="reviewer-initial" style="background: #ec4899;">N</div>
+                        <div class="reviewer-info">
+                            <h4>Neha Mishra</h4>
+                            <div class="verified-badge"><i class="bi bi-check-circle-fill"></i> Verified Customer</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"I recently used this laundry service, and I couldn’t be more impressed. The
+                        clothes came back spotless, perfectly folded, and smelling fresh. Their attention to detail is
+                        outstanding... Professional and responsive customer service!"</p>
+                    <div class="review-date">1 month ago</div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="review-card">
+                    <div class="reviewer-header">
+                        <div class="reviewer-initial" style="background: #8b5cf6;">N</div>
+                        <div class="reviewer-info">
+                            <h4>Nikhil Sahu</h4>
+                            <div class="verified-badge"><i class="bi bi-check-circle-fill"></i> Verified Customer</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"Best Jacket and Saree Dry Cleaning Service - Kwik Klin Smart Services in
+                        Varanasi. Highly satisfied with their quality of work and timing."</p>
+                    <div class="review-date">3 months ago</div>
+                </div>
+
+                <!-- Review 4 (Generic for fullness) -->
+                <div class="review-card">
+                    <div class="reviewer-header">
+                        <div class="reviewer-initial" style="background: #f59e0b;">S</div>
+                        <div class="reviewer-info">
+                            <h4>Suyash Gupta</h4>
+                            <div class="verified-badge"><i class="bi bi-check-circle-fill"></i> Verified Customer</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"Very convenient service. Pickup and delivery were on time. The app is easy
+                        to use and the prices are reasonable for the quality provided."</p>
+                    <div class="review-date">4 months ago</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Kwik Klin</h3>
+                    <p>Smart Laundry Services in Varanasi.</p>
+                    <p style="margin-top: 1rem;"><i class="bi bi-telephone"></i> 9696856069</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="story.html">Our Story</a></li>
+                        <li><a href="blogs.html">Blogs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="services.html">Dry Cleaning</a></li>
+                        <li><a href="services.html">Premium Wash</a></li>
+                        <li><a href="services.html">Shoe Cleaning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Admin</h3>
+                    <ul class="footer-links">
+                        <li><a href="admin.html">Admin Login</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Kwik Klin Smart Services. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic -->
+    <script src="data.js"></script>
+    <script>
+        // --- Enforce Site Settings ---
+        function checkSettings() {
+            const adminData = DataManager.getAdminData();
+            const settings = adminData.settings || {};
+
+            // 1. Maintenance Mode
+            if (settings.maintenanceMode) {
+                document.body.innerHTML = `
+                    <div style="height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; background:#f8fafc; color:#334155;">
+                        <i class="bi bi-cone-striped" style="font-size:4rem; color:#ef4444; margin-bottom:1rem;"></i>
+                        <h1 style="font-size:2rem; margin-bottom:0.5rem;">Under Maintenance</h1>
+                        <p>We are currently upgrading our services. Please check back later.</p>
+                        <p style="margin-top:2rem; font-size:0.8rem; color:#94a3b8;">&copy; Kwik Klin Smart Services</p>
+                    </div>
+                `;
+                return false;
+            }
+
+            // 2. Show/Hide Blogs
+            if (settings.allowBlogs === false) {
+                const blogSection = document.getElementById('blogs');
+                if (blogSection) blogSection.style.display = 'none';
+
+                // Also hide nav link
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === '#blogs') link.style.display = 'none';
+                });
+            }
+            return true;
+        }
+
+        if (!checkSettings()) {
+            // If maintenance mode, stop other scripts (optional, but innerHTML replace does most of it)
+        } else {
+            // Track Visit
+            DataManager.trackVisit();
+        }
+
+        // 1. Load Services based on Category
+        function renderServices() {
+            document.getElementById('nav-links').classList.toggle('active');
+        }
+
+        // Hero Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        if (slides.length > 0) {
+            setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+
+        // Load Preview Services
+        document.addEventListener('DOMContentLoaded', () => {
+            DataManager.updateCartCount(); // Setup badge
+
+            const container = document.getElementById('services-container');
+            const services = DataManager.getServices().slice(0, 4); // Show only top 4
+
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                card.innerHTML = `
+                    <div style="position:relative;">
+                        <img src="${service.image}" alt="${service.name}" class="service-img">
+                         <div style="position:absolute; top:10px; right:10px; display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
+                            <span style="background:white; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:700;">${service.category}</span>
+                            ${service.subCategory ? `<span style="background:rgba(255,255,255,0.9); padding:2px 6px; border-radius:4px; font-size:0.65rem; font-weight:600; color:#64748b;">${service.subCategory}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="service-info">
+                        <div class="service-cat">${service.category}</div>
+                        <h3 class="service-title">${service.name}</h3>
+                        <div class="service-price">₹${service.price}</div>
+                        <button class="add-btn" onclick="addToCart('${service.id}')">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        });
+
+        function addToCart(id) {
+            DataManager.addToCart(id);
+            alert('Added to cart!'); // Simple feedback
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Kwik Klin Smart Services</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Modern Cart Page Styles */
+        body {
+            /* Background Image with Overlay */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1517677280437-a8dabc8f403e?q=80&w=2069&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* Parallax effect */
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            /* Keep header solid/readable */
+        }
+
+        .section-title h1 {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            /* Glassmorphismish */
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 5px solid var(--primary);
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Staggered Animation Delay for Items */
+        .cart-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .cart-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .cart-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .cart-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-thumb {
+            height: 80px;
+            width: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 999px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .qty-btn {
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .checkout-form {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px dashed #cbd5e1;
+            position: relative;
+        }
+
+        .checkout-form::before {
+            content: 'Checkout Details';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e0f2fe;
+            color: var(--primary-dark);
+            padding: 0.25rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-input {
+            border: 2px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-confirm {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            font-size: 1.1rem;
+            background: #25D366;
+            /* WhatsApp Green */
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3);
+            cursor: pointer;
+        }
+
+        .btn-confirm:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Empty State */
+        #empty-msg {
+            text-align: center;
+            padding: 4rem 2rem;
+            display: none;
+            color: var(--gray);
+        }
+
+        #empty-msg i {
+            font-size: 5rem;
+            color: #bae6fd;
+            margin-bottom: 1rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="logo"><i class="bi bi-water"></i> Kwik Klin</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="bi bi-list"></i></div>
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="cart.html" class="nav-link active cart-icon">
+                    <i class="bi bi-cart3"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="https://wa.me/9696856069" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-whatsapp"></i> 9696856069
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <!-- Title with separate style for contrast on dark bg -->
+            <div class="section-title">
+                <h1 style="color: white; margin-bottom: 0.5rem;"><i class="bi bi-bag-check-fill"></i> Your Laundry Bag
+                </h1>
+                <p style="color: rgba(255,255,255,0.8);">Complete your order to schedule a pickup.</p>
+            </div>
+
+            <div class="cart-container">
+                <div id="cart-items">
+                    <!-- JS Loaded Items -->
+                </div>
+
+                <div id="empty-msg">
+                    <i class="bi bi-basket"></i>
+                    <h2>Your bag is empty!</h2>
+                    <p>It looks like you haven't added any laundry items yet.</p>
+                    <a href="services.html" class="btn btn-primary" style="margin-top: 1.5rem; padding: 1rem 2rem;">
+                        Browse Services
+                    </a>
+                </div>
+
+                <div id="cart-summary" style="display: none;">
+                    <!-- Price Breakdown -->
+                    <div style="background: var(--light); padding: 1.5rem; border-radius: 1rem; margin-top: 2rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--gray);">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">₹0</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gray);">
+                            <span>Delivery Charge</span>
+                            <span id="cart-delivery" style="color: var(--accent);">₹50</span>
+                        </div>
+                        <div style="height: 1px; background: #e2e8f0; margin-bottom: 1rem;"></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 1.1rem; font-weight: 600;">Grand Total</span>
+                            <span style="font-size: 2rem; font-weight: 800; color: var(--secondary);"
+                                id="cart-total">₹0</span>
+                        </div>
+                        <div id="free-delivery-msg"
+                            style="text-align: right; font-size: 0.8rem; color: #22c55e; margin-top: 0.5rem; display: none;">
+                            <i class="bi bi-check-circle-fill"></i> You got Free Delivery!
+                        </div>
+                    </div>
+
+                    <div class="checkout-form">
+                        <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="bi bi-geo-alt-fill" style="color: var(--primary);"></i> Pickup Details
+                        </h3>
+
+                        <form id="checkout-form" onsubmit="handleCheckout(event)">
+                            <div class="form-group">
+                                <label><i class="bi bi-person"></i> Full Name</label>
+                                <input type="text" id="name" class="form-input" required placeholder="Ex: Rahul Verma"
+                                    style="font-weight: 500;">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-telephone"></i> Phone Number</label>
+                                <input type="tel" id="phone" class="form-input" required placeholder="Ex: 9696856069">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-house-door"></i> Pickup Address</label>
+                                <textarea id="address" class="form-input" rows="3" required
+                                    placeholder="Flat No, Building, Landmark..."></textarea>
+                            </div>
+
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="button" class="btn-confirm" onclick="saveAndPrintBill()"
+                                    style="background: #334155; flex: 1; box-shadow: none;">
+                                    <span><i class="bi bi-printer"></i> Bill</span>
+                                </button>
+                                <button type="submit" class="btn-confirm" style="flex: 2;">
+                                    <span>Confirm via WhatsApp</span>
+                                    <i class="bi bi-whatsapp" style="font-size: 1.2rem;"></i>
+                                </button>
+                            </div>
+                            <p style="text-align: center; font-size: 0.85rem; color: var(--gray); margin-top: 1rem;">
+                                <i class="bi bi-shield-lock"></i> Your data is local and secure.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer override to transparent or style check -->
+    <!-- We can keep standard footer or hide it. Let's keep it but maybe simple copyright? Using standard footer for consistency -->
+    <footer class="footer" style="background: white; color: var(--secondary);">
+        <div class="container">
+            <div class="copyright" style="border-color: #e2e8f0; color: #64748b;">
+                &copy; 2025 Kwik Klin Smart Services.
+            </div>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        function toggleMenu() { document.getElementById('nav-links').classList.toggle('active'); }
+
+        function checkSettings() {
+            const adminData = DataManager.getAdminData();
+            const settings = adminData.settings || {};
+
+            // 1. Maintenance Mode
+            if (settings.maintenanceMode) {
+                document.body.innerHTML = `
+                    <div style="height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; background:#f8fafc; color:#334155;">
+                        <i class="bi bi-cone-striped" style="font-size:4rem; color:#ef4444; margin-bottom:1rem;"></i>
+                        <h1 style="font-size:2rem; margin-bottom:0.5rem;">Under Maintenance</h1>
+                        <p>We are currently upgrading our services. Please check back later.</p>
+                        <a href="index.html" style="margin-top:1.5rem; color:#0ea5e9;">Return Home</a>
+                    </div>
+                `;
+                return false;
+            }
+            return true;
+        }
+
+        function renderCart() {
+            if (!checkSettings()) return;
+
+            DataManager.updateCartCount();
+
+            // Check Order Permissions
+            const adminData = DataManager.getAdminData();
+            const allowOrders = adminData.settings ? adminData.settings.allowOrders : true;
+
+            const cart = DataManager.getCart();
+            const container = document.getElementById('cart-items');
+            const emptyMsg = document.getElementById('empty-msg');
+            const summary = document.getElementById('cart-summary');
+
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                emptyMsg.style.display = 'block';
+                summary.style.display = 'none';
+                return;
+            }
+
+            emptyMsg.style.display = 'none';
+            summary.style.display = 'block';
+
+            cart.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'cart-item';
+                el.innerHTML = `
+                    <div class="cart-item-info">
+                        <img src="${item.image}" class="cart-thumb">
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.25rem;">${item.name}</div>
+                            <div style="color: var(--gray); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="bi bi-tag"></i> ₹${item.price} / item
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="updateQty('${item.id}', -1)"><i class="bi bi-dash"></i></button>
+                            <span style="font-weight: 600; min-width: 20px; text-align: center;">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQty('${item.id}', 1)"><i class="bi bi-plus"></i></button>
+                        </div>
+                        <div style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">₹${item.price * item.quantity}</div>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+
+            // Update Summary
+            const orderSum = DataManager.getOrderSummary();
+            document.getElementById('cart-subtotal').innerText = '₹' + orderSum.subtotal;
+            document.getElementById('cart-total').innerText = '₹' + orderSum.total;
+
+            const deliveryEl = document.getElementById('cart-delivery');
+            const freeMsg = document.getElementById('free-delivery-msg');
+
+            if (orderSum.delivery === 0) {
+                deliveryEl.innerHTML = '<span style="color: #22c55e;">FREE</span> <span style="text-decoration: line-through; color: #cbd5e1; font-size: 0.8rem;">₹50</span>';
+                freeMsg.style.display = 'block';
+            } else {
+                deliveryEl.innerText = '₹' + orderSum.delivery;
+                deliveryEl.style.color = 'var(--secondary)';
+                freeMsg.style.display = 'none';
+            }
+        }
+
+        if (allowOrders) {
+            // Show Checkout Form
+            document.querySelector('.checkout-form').style.display = 'block';
+        } else {
+            // Hide Form & Show Message
+            document.querySelector('.checkout-form').style.display = 'none';
+
+            const msg = document.createElement('div');
+            msg.innerHTML = `
+                    <div style="background:#fff1f2; color:#be123c; padding:1.5rem; border-radius:1rem; text-align:center; margin-top:2rem; border:1px solid #fecaca;">
+                        <i class="bi bi-bag-x-fill" style="font-size:1.5rem; margin-bottom:0.5rem; display:block;"></i>
+                        <strong>Ordering is currently paused.</strong>
+                        <p style="font-size:0.9rem; margin-top:0.5rem;">We are not accepting new orders at the moment. Please call us for urgency.</p>
+                        <a href="tel:9696856069" class="btn btn-primary" style="display:inline-block; margin-top:1rem; background:#be123c; border:none;">
+                            <i class="bi bi-telephone"></i> Call Support
+                        </a>
+                    </div>
+                `;
+            document.getElementById('cart-summary').appendChild(msg);
+        }
+        }
+
+        function updateQty(id, change) {
+            DataManager.updateQuantity(id, change);
+            renderCart();
+        }
+
+        function handleCheckout(e) {
+            e.preventDefault();
+            // Double check setting on submit
+            const adminData = DataManager.getAdminData();
+            if (adminData.settings && !adminData.settings.allowOrders) {
+                alert("Ordering is disabled.");
+                return;
+            }
+
+            const details = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value
+            };
+
+            DataManager.checkoutWhatsApp(details);
+        }
+
+        function saveAndPrintBill() {
+            const details = {
+                name: document.getElementById('name').value || 'Guest',
+                phone: document.getElementById('phone').value || '',
+                address: document.getElementById('address').value || ''
+            };
+            localStorage.setItem('kwikklin_customer_temp', JSON.stringify(details));
+            window.open('print_bill.html', '_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+</body>
+
+</html>

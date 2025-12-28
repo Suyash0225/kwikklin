@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs - Kwik Klin Smart Services</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container nav">
+            <a href="index.html" class="logo"><i class="bi bi-water"></i> Kwik Klin</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="bi bi-list"></i></div>
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="story.html" class="nav-link">Our Story</a>
+                <a href="blogs.html" class="nav-link active">Blogs</a>
+                <a href="cart.html" class="nav-link cart-icon">
+                    <i class="bi bi-cart3"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="https://wa.me/9696856069" class="btn btn-primary" target="_blank">
+                    <i class="bi bi-whatsapp"></i> 9696856069
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="section-title">Latest Updates</h1>
+
+            <div id="blogs-container" class="services-grid">
+                <!-- Javascript will load blogs here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Kwik Klin</h3>
+                    <p>Smart Laundry Services in Varanasi.</p>
+                    <p style="margin-top: 1rem;"><i class="bi bi-telephone"></i> 9696856069</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="story.html">Our Story</a></li>
+                        <li><a href="blogs.html">Blogs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">&copy; 2025 Kwik Klin.</div>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        function toggleMenu() { document.getElementById('nav-links').classList.toggle('active'); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            DataManager.updateCartCount();
+
+            const container = document.getElementById('blogs-container');
+            const blogs = DataManager.getBlogs();
+
+            if (blogs.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--gray);">No updates yet.</p>';
+                return;
+            }
+
+            blogs.forEach(blog => {
+                const el = document.createElement('div');
+                el.className = 'service-card';
+                el.innerHTML = `
+                    <img src="${blog.image}" class="service-img">
+                    <div class="service-info">
+                        <div class="service-cat">${blog.category}</div>
+                        <h3 class="service-title">${blog.title}</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">${blog.snippet}</p>
+                        <a href="#" class="btn btn-secondary" style="border:none; padding-left:0; background:none;">
+                            Read More <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        });
+    </script>
+</body>
+
+</html>
