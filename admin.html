@@ -463,7 +463,8 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-brand">
-                <i class="bi bi-speedometer2"></i> Dashboard
+                <img src="images/logo.png" alt="Admin" style="height: 48px; width: auto;">
+                <span style="margin-left:8px;">Admin</span>
             </div>
 
             <div class="nav-item active" onclick="switchTab('analytics')">
@@ -1119,7 +1120,12 @@
             // Login Logs
             const logs = adminData.loginLog || {};
             if (document.getElementById('last-login')) document.getElementById('last-login').innerText = logs.lastLogin || 'Never';
-            if (document.getElementById('failed-attempts')) document.getElementById('failed-attempts').innerText = logs.failedAttempts || 0;
+
+            // Show failures that happened immediately before this login (or current if polling)
+            if (document.getElementById('failed-attempts')) {
+                document.getElementById('failed-attempts').innerText = logs.recentFailedAttempts || 0;
+            }
+
             if (document.getElementById('login-device')) document.getElementById('login-device').innerText = logs.device || '-';
 
             // Settings Toggles

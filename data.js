@@ -213,15 +213,35 @@ const DataManager = {
 
     logLogin(success) {
         const data = this.getAdminData();
-        // Initialize if missing (backward compatibility)
-        if (!data.loginLog) data.loginLog = { lastLogin: null, failedAttempts: 0 };
+        // Initialize if missing
+        if (!data.loginLog) data.loginLog = { lastLogin: null, failedAttempts: 0, recentFailedAttempts: 0 };
 
         if (success) {
             data.loginLog.lastLogin = new Date().toLocaleString();
-            data.loginLog.failedAttempts = 0;
-            data.loginLog.device = navigator.userAgent; // Simple device tracking
+
+            // Store the failures allowed to check safely
+            data.loginLog.recentFailedAttempts = data.loginLog.failedAttempts || 0;
+
+            data.loginLog.failedAttempts = 0; // Reset for next session checks
+
+            // Simplify User Agent
+            const ua = navigator.userAgent;
+            let device = "Unknown Device";
+            if (ua.includes("Windows")) device = "Windows PC";
+            else if (ua.includes("Android")) device = "Android Device";
+            else if (ua.includes("iPhone")) device = "iPhone";
+            else if (ua.includes("Mac")) device = "Mac";
+
+            // Browser
+            if (ua.includes("Chrome")) device += " (Chrome)";
+            else if (ua.includes("Firefox")) device += " (Firefox)";
+            else if (ua.includes("Safari")) device += " (Safari)";
+
+            data.loginLog.device = device;
         } else {
             data.loginLog.failedAttempts = (data.loginLog.failedAttempts || 0) + 1;
+            // Also update recent so it shows real-time if we were to poll it (though we can't see dashboard yet)
+            data.loginLog.recentFailedAttempts = data.loginLog.failedAttempts;
         }
         this.saveAdminData(data);
     },

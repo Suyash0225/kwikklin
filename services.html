@@ -13,7 +13,10 @@
     <!-- Header -->
     <header class="header">
         <div class="container nav">
-            <a href="index.html" class="logo"><i class="bi bi-water"></i> Kwik Klin</a>
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Kwik Klin" style="height: 48px; width: auto; object-fit: contain;">
+                <span style="margin-left:8px; font-weight:700; color:#334155;">Kwik Klin</span>
+            </a>
             <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="bi bi-list"></i></div>
             <nav class="nav-links" id="nav-links">
                 <a href="index.html" class="nav-link">Home</a>
@@ -92,6 +95,28 @@
                 -ms-overflow-style: none;
                 scrollbar-width: none;
                 align-items: center;
+                flex-wrap: nowrap;
+                /* Force single line */
+                padding-bottom: 5px;
+                /* Space for scroll */
+            }
+
+            /* Responsive Adjustments */
+            @media (max-width: 768px) {
+                .filter-group {
+                    justify-content: flex-start;
+                    padding-right: 1rem;
+                    /* End padding */
+                }
+
+                #search-input {
+                    font-size: 16px;
+                    /* Prevent iOS zoom */
+                }
+
+                .cat-item {
+                    min-width: fit-content;
+                }
             }
 
             /* Primary Category Pills */
@@ -107,6 +132,8 @@
                 font-weight: 500;
                 font-size: 0.95rem;
                 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+                flex-shrink: 0;
+                /* Prevent squish */
             }
 
             .filter-pill:hover {
@@ -137,6 +164,8 @@
                 font-size: 0.85rem;
                 font-weight: 600;
                 letter-spacing: 0.02em;
+                flex-shrink: 0;
+                /* Prevent squish */
             }
 
             .filter-chip:hover {
@@ -233,32 +262,27 @@
             catContainer.className = 'category-slider'; // Change class for new styles
 
             categories.forEach(cat => {
-                const btn = document.createElement('div');
-                btn.className = `cat-item ${cat === 'All' ? 'active' : ''}`;
+                const btn = document.createElement('button');
+                btn.className = `filter-pill ${cat === 'All' ? 'active' : ''}`;
                 btn.onclick = () => filterServices(cat);
 
-                // Icon (Specific or Default)
-                let iconClass = getCategoryIcon(cat);
-                if (cat === 'All') iconClass = 'bi-grid';
+                // Add Icon
+                const iconClass = getCategoryIcon(cat);
+                const iconHtml = cat === 'All'
+                    ? '<i class="bi bi-grid-fill" style="margin-right:6px;"></i>'
+                    : `<i class="bi ${iconClass}" style="margin-right:6px;"></i>`;
 
-                btn.innerHTML = `
-                    <div class="cat-icon"><i class="bi ${iconClass}"></i></div>
-                    <span class="cat-label">${cat}</span>
-                `;
+                btn.innerHTML = `${iconHtml}${cat}`;
                 catContainer.appendChild(btn);
             });
 
-            // Hide Sub-Categories for this clean look, or keep them? 
-            // The requested UI doesn't show sub-tabs, but functionality is good. 
-            // I'll keep them but style them minimal or hide if empty.
-            // For now, let's keep the existing sub-category logic as is, it's useful.
+            // 2. Sub-Categories
             const subCategories = ['All', ...new Set(allServices.map(s => s.subCategory || 'Other'))];
             const subContainer = document.getElementById('subcategory-filters');
             subContainer.innerHTML = '';
 
-            // Only show if we have valid subcats
             const validSub = subCategories.filter(s => s && s !== 'Other');
-            if (validSub.length <= 1) { // Just 'All'
+            if (validSub.length <= 1) {
                 subContainer.parentElement.style.display = 'none';
             } else {
                 subContainer.parentElement.style.display = 'flex';
@@ -275,24 +299,17 @@
 
         function filterServices(category) {
             currentCategory = category;
-
             // Update Category UI
-            document.querySelectorAll('.cat-item').forEach(btn => {
-                const label = btn.querySelector('.cat-label').innerText;
-                if (label === category) btn.classList.add('active');
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                if (btn.innerText.includes(category)) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
-
             applyFilters();
         }
-
-        /* Sub-Service Logic same ... */
 
         function renderServices(services) {
             const container = document.getElementById('services-container');
             container.innerHTML = '';
-            // Switch container class to generic container (grid checks css)
-            // But we actually want a list layout now.
             container.className = 'service-list-container';
 
             if (services.length === 0) {
@@ -306,24 +323,19 @@
                 card.style.animation = 'fadeIn 0.3s ease-out';
 
                 card.innerHTML = `
-                    <!-- Left: Image Circle -->
                     <div class="list-card-img-wrapper">
                         <img src="${service.image}" alt="${service.name}">
                     </div>
                     
-                    <!-- Middle: Info -->
                     <div class="list-card-info">
                         <h3 class="list-card-title">${service.name}</h3>
                         <div class="list-card-price">₹ ${service.price}</div>
                     </div>
 
-                    <!-- Right: Add Button -->
                     <div class="list-card-action">
                         <button class="add-btn-orange" onclick="addToCart(this, '${service.id}')">
                             <i class="bi bi-plus-lg"></i> ADD
                         </button>
-                        <!-- Hidden Qty Input for logic -->
-                        <input type="hidden" value="1" class="qty-input">
                     </div>
                 `;
                 container.appendChild(card);
@@ -367,7 +379,6 @@
             renderServices(filtered);
         }
 
-        // Logic for Horizontal Card Add
         function addToCart(btn, id) {
             // In the new list layout, we just add 1 item per click by default
             // Or we can find the hidden input if we want to allow qty logic later
