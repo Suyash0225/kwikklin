@@ -23,7 +23,7 @@
     <header class="header">
         <div class="container nav">
             <a href="index.html" class="logo">
-                <img src="images/logo.png" alt="Kwik Klin" style="height: 48px; width: auto; object-fit: contain;">
+                <img src="images/logo.png" alt="Kwik Klin">
                 <span style="margin-left:8px; font-weight:700; color:#334155;">Kwik Klin</span>
             </a>
 
@@ -49,11 +49,11 @@
 
     <!-- Hero Section (Auto Slider) -->
     <section class="hero">
-        <!-- Slide 1: Hanging Clothes -->
-        <div class="slide active" style="background-image: url('images/banner_hero.jpg');">
+        <!-- Slide 1: Professional Laundry Room -->
+        <div class="slide active" style="background-image: url('images/banner_laundry_1.png');">
         </div>
-        <!-- Slide 2: Folded Towels -->
-        <div class="slide" style="background-image: url('images/banner_folded.jpg');">
+        <!-- Slide 2: Stack of Clean Linens -->
+        <div class="slide" style="background-image: url('images/banner_laundry_2.png');">
         </div>
 
         <div class="container hero-content">
@@ -393,9 +393,11 @@
                 card.style.cursor = 'pointer';
                 card.onclick = () => window.location.href = 'services.html';
 
+                const iconClass = DataManager.getCategoryIcon(cat.name);
+
                 card.innerHTML = `
-                    <div class="service-img-wrapper">
-                        <img src="${cat.image}" alt="${cat.name}" class="service-img">
+                    <div class="service-img-wrapper" style="display:flex; align-items:center; justify-content:center; background: #f8fafc; color: var(--primary); font-size: 4rem;">
+                        <i class="bi ${iconClass}"></i>
                     </div>
                     <div class="service-info">
                         <div style="font-size:0.8rem; color:var(--gray); margin-bottom:0.25rem;">${cat.count} Items</div>
