@@ -321,6 +321,35 @@
                 font-size: 0.9rem;
             }
 
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 1.25rem;
+            }
+
+            .cart-item-info {
+                width: 100%;
+            }
+
+            .cart-item>div:last-child {
+                width: 100%;
+                flex-direction: row !important;
+                justify-content: space-between;
+                align-items: center !important;
+                border-top: 1px solid #f1f5f9;
+                padding-top: 1rem;
+            }
+
+            .quantity-controls {
+                padding: 0.3rem;
+            }
+
+            .qty-btn {
+                height: 36px;
+                width: 36px;
+            }
+
             .btn-confirm {
                 font-size: 1rem;
                 padding: 0.8rem;
@@ -452,7 +481,10 @@
 
     <script src="data.js"></script>
     <script>
-        function toggleMenu() { document.getElementById('nav-links').classList.toggle('active'); }
+        function toggleMenu() {
+            document.getElementById('nav-links').classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        }
 
         function checkSettings() {
             const adminData = DataManager.getAdminData();

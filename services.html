@@ -107,7 +107,10 @@
 
     <script src="data.js"></script>
     <script>
-        function toggleMenu() { document.getElementById('nav-links').classList.toggle('active'); }
+        function toggleMenu() {
+            document.getElementById('nav-links').classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        }
 
         let allServices = [];
         let currentCategory = 'All';
