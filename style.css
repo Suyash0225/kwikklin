@@ -1623,6 +1623,8 @@ img {
     .header {
         height: 70px;
         padding: 0.5rem 0;
+        z-index: 2500;
+        /* Header stays above menu and backdrop */
     }
 
     .logo img {

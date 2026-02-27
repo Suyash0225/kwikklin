@@ -338,10 +338,17 @@
             DataManager.trackVisit();
         }
 
-        // --- Mobile Menu Toggle ---
         function toggleMenu() {
-            document.getElementById('nav-links').classList.toggle('active');
+            const nav = document.getElementById('nav-links');
+            const icon = document.querySelector('.mobile-menu-btn i');
+            nav.classList.toggle('active');
             document.body.classList.toggle('menu-open');
+
+            if (document.body.classList.contains('menu-open')) {
+                icon.classList.replace('bi-list', 'bi-x-lg');
+            } else {
+                icon.classList.replace('bi-x-lg', 'bi-list');
+            }
         }
 
         // Hero Slider Logic
